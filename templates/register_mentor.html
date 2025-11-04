@@ -1,0 +1,16 @@
+{% extends 'base_mentor.html' %}
+{% block title %}Mentor Registration{% endblock %} 
+
+{% block content %}
+  <h1 class="text-3xl font-bold">Register as a Mentor</h1>
+  <form method="POST" class="mt-6">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
+      Register
+    </button>
+  </form>
+  <a href="{% url 'landing' %}" class="block mt-4 text-gray-800 hover:underline">
+    &larr; Back to Home
+  </a>
+{% endblock %}

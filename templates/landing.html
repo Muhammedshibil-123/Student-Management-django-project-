@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-center p-10">
+    <h1 class="text-3xl font-bold">Student Management System</h1>
+    <p class="mt-4">Please select your role to register:</p>
+
+    <div class="mt-6 space-x-4">
+        <a href="{% url 'student_register' %}" class="bg-blue-500 text-white px-6 py-2 rounded">
+            Register as Student
+        </a>
+        <a href="{% url 'mentor_register' %}" class="bg-green-500 text-white px-6 py-2 rounded">
+            Register as Mentor
+        </a>
+    </div>
+
+    <hr class="my-8">
+
+    <p>Already have an account?</p>
+    <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
+        Login Here
+    </a>
+</body>
+</html>
