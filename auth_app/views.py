@@ -25,7 +25,7 @@ def login_view(request):
         else:
             messages.error(request,'invalid username or password.')
     
-    return render(request,'login.html')
+    return render(request,'auth_pages/login.html')
 
 def student_register(request):
     if request.method=='POST':

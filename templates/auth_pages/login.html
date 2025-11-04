@@ -5,49 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex justify-center items-center min-h-screen">
 
-<div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-    <h1 class="text-3xl font-bold text-center mb-6">Login</h1>
+<div class="bg-white shadow-2xl rounded-lg flex overflow-hidden w-[850px] max-w-full h-[450px]">
 
-    {% if messages %}
+   
+    <div class="w-1/2 p-10">
+        <h1 class="text-3xl font-bold text-center mb-6">Login</h1>
+
+        {% if messages %}
         <div class="mb-4">
             {% for message in messages %}
                 <p class="text-red-500 text-center">{{ message }}</p>
             {% endfor %}
         </div>
-    {% endif %}
+        {% endif %}
 
-    <form method="POST" class="space-y-4">
-        {% csrf_token %}
-        
-        <div>
-            <label class="block font-medium mb-1">Username</label>
-            <input type="text" name="username" 
-                   class="w-full border rounded px-3 py-2 text-black focus:outline-none focus:ring focus:ring-blue-400"
-                   required>
-        </div>
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block font-medium mb-1">Username</label>
+                <input type="text" name="username" 
+                    class="w-full border rounded px-3 py-2 text-black focus:outline-none focus:ring focus:ring-blue-400"
+                    required>
+            </div>
 
-        <div>
-            <label class="block font-medium mb-1">Password</label>
-            <input type="password" name="password" 
-                   class="w-full border rounded px-3 py-2 text-black focus:outline-none focus:ring focus:ring-blue-400"
-                   required>
-        </div>
+            <div>
+                <label class="block font-medium mb-1">Password</label>
+                <input type="password" name="password" 
+                    class="w-full border rounded px-3 py-2 text-black focus:outline-none focus:ring focus:ring-blue-400"
+                    required>
+            </div>
 
-        <button type="submit" 
+            <button type="submit"
                 class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
-            Login
-        </button>
-    </form>
+                Login
+            </button>
+        </form>
 
-    <a href="{% url 'landing' %}" 
-       class="block text-center mt-4 text-blue-500 hover:underline">
-        ← Back to Home
-    </a>
+        <p class="text-center text-sm text-gray-600 mt-4">
+            Don't have an account?
+            <a href="{% url 'register' %}" class="text-blue-500 font-semibold hover:underline">
+                Register
+            </a>
+        </p>
+    </div>
+
+ 
+    <div class="w-1/2">
+        <img src="/static/images/colleage.jpg" 
+             alt="College Image"
+             class="w-full h-full object-cover">
+    </div>
+
 </div>
 
 </body>
