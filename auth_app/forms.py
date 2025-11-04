@@ -17,19 +17,37 @@ class StudentRegistrationForm(UserCreationForm):
         
 
 class MentorRegistrationForm(UserCreationForm):
+     
+    MENTOR_CODE='123456'
 
     department=forms.ModelChoiceField(queryset=Department.objects.all(),required=True ,empty_label="Select Department")
     course=forms.ModelChoiceField(queryset=Course.objects.all(),required=True,empty_label="Select Course")
-    year=forms.CharField(max_length=20,required=False)
-    division_batch=forms.CharField(max_length=20,required=False)
-    mentor_code=forms.CharField(max_length=10,required=False)
+    year = forms.ChoiceField(
+        choices=[('', 'Select Year')] + MentorProfile.YEAR_CHOICES, 
+        required=False
+    )
+    division_batch=forms.ChoiceField(
+         choices=[('','Selcect Division')]+MentorProfile.DIVISIONS,
+         required=False
+    )
+    mentor_code=forms.CharField(max_length=10,required=False,help_text="Enter the official mentor code.")
     contact_number=forms.CharField(max_length=20,required=False)
-    date_of_joining=forms.DateField(required=False)
+    date_of_joining=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),required=False)
+    profile_picture=forms.ImageField(required=False)
+
 
 
     class Meta(UserCreationForm.Meta):
         model=CustomUser
         fields=('username','first_name','last_name','email')
+
+    def mentor_code(self):
+         code=self.cleaned_data.get('mentor_code')
+
+         if code != self.MENTOR_CODE:
+              raise forms.ValidationError('Invalid Mentor Code.')
+         return code
+         
 
     def save(self,commit=True):
             user=super().save(commit=False)
