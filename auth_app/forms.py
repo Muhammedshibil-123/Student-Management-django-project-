@@ -27,10 +27,10 @@ class MentorRegistrationForm(UserCreationForm):
         required=False
     )
     division_batch=forms.ChoiceField(
-         choices=[('','Selcect Division')]+MentorProfile.DIVISIONS,
+         choices=[('','Select Division')]+MentorProfile.DIVISIONS,
          required=False
     )
-    mentor_code=forms.CharField(max_length=10,required=False,help_text="Enter the official mentor code.")
+    mentor_code=forms.CharField(max_length=10,required=True,help_text="Enter the official mentor code.")
     contact_number=forms.CharField(max_length=20,required=False)
     date_of_joining=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),required=False)
     profile_picture=forms.ImageField(required=False)
@@ -41,7 +41,7 @@ class MentorRegistrationForm(UserCreationForm):
         model=CustomUser
         fields=('username','first_name','last_name','email')
 
-    def mentor_code(self):
+    def clean_mentor_code(self):
          code=self.cleaned_data.get('mentor_code')
 
          if code != self.MENTOR_CODE:
