@@ -20,7 +20,7 @@ def login_view(request):
             
             if user.is_mentor():
                 return redirect('mentor_profile')
-            elif user.is_stundent():
+            elif user.is_student():
                 return redirect('student_profile')
         else:
             messages.error(request,'invalid username or password.')

@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
     )
     user_type=models.CharField( max_length=11,choices=USER_TYPE_CHOICES)
 
-    def is_studnet(self):
+    def is_student(self):
         return self.user_type == 'student'
     
     def is_mentor(self):
