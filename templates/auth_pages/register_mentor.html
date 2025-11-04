@@ -12,7 +12,7 @@
         
         <h1 class="text-3xl font-bold text-center mb-6">Register as Mentor 👨‍🏫</h1>
 
-        <form method="POST" class="space-y-4">
+        <form method="POST" class="space-y-4" enctype="multipart/form-data">
             {% csrf_token %}
 
             {% for field in form %}

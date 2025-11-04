@@ -40,7 +40,7 @@ def student_register(request):
 
 def mentor_register(request):
     if request.method=='POST':
-        form=MentorRegistrationForm(request.POST)
+        form=MentorRegistrationForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request,'Mentor account created.You can now log in now.')
