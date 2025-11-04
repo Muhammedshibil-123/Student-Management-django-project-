@@ -5,8 +5,8 @@ from .forms import StudentRegistrationForm,MentorRegistrationForm
 
 
 # Create your views here.
-def landing_page(request):
-    return render(request,'register.html')
+def register_page(request):
+    return render(request,'auth_pages/register.html')
 
 
 def login_view(request):
@@ -36,7 +36,7 @@ def student_register(request):
             return redirect('login')
     else:
         form=StudentRegistrationForm()
-    return render(request,'register_student.html',{'form':form})
+    return render(request,'auth_pages/register_student.html',{'form':form})
 
 def mentor_register(request):
     if request.method=='POST':
@@ -47,7 +47,7 @@ def mentor_register(request):
             return redirect('login')
     else:
         form=MentorRegistrationForm()
-    return render(request,'register_mentor.html',{'form':form})
+    return render(request,'auth_pages/register_mentor.html',{'form':form})
 
 def logout_view(request):
     logout(request)

@@ -1,16 +1,40 @@
-{% extends 'base_mentor.html' %}
-{% block title %}Mentor Registration{% endblock %} 
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mentor Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-green-100 via-blue-100 to-purple-100 min-h-screen flex justify-center items-center">
 
-{% block content %}
-  <h1 class="text-3xl font-bold">Register as a Mentor</h1>
-  <form method="POST" class="mt-6">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
-      Register
-    </button>
-  </form>
-  <a href="{% url 'landing' %}" class="block mt-4 text-gray-800 hover:underline">
-    &larr; Back to Home
-  </a>
-{% endblock %}
+    <div class="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-lg">
+        
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
+            Register as Mentor 👨‍🏫
+        </h1>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" 
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition">
+                Create Account
+            </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-600 mt-5">
+            Already registered?
+            <a href="{% url 'login' %}" class="text-blue-600 font-semibold hover:underline">
+                Login Here
+            </a>
+        </p>
+
+        <a href="{% url 'register' %}" 
+           class="block text-center text-gray-700 mt-4 hover:underline">
+           ← Back to Role Selection
+        </a>
+    </div>
+
+</body>
+</html>
