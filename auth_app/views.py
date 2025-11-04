@@ -46,8 +46,8 @@ def mentor_register(request):
             messages.success(request,'Mentor account created.You can now log in now.')
             return redirect('login')
     else:
-        form=StudentRegistrationForm()
-    return render(request,'register_student.html',{'form':form})
+        form=MentorRegistrationForm()
+    return render(request,'register_mentor.html',{'form':form})
 
 def logout_view(request):
     logout(request)

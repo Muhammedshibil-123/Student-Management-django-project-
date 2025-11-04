@@ -4,7 +4,7 @@ from .models import CustomUser
 class StudentRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model=CustomUser
-        fields=('username','firstname','lastname','email')
+        fields=('username','first_name','last_name','email')
     
         def save(self,commit=True):
             user=super().save(commit=False)
@@ -17,7 +17,7 @@ class StudentRegistrationForm(UserCreationForm):
 class MentorRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model=CustomUser
-        fields=('username','firstname','lastname','email')
+        fields=('username','first_name','last_name','email')
 
         def save(self,commit=True):
             user=super().save(commit=False)
