@@ -6,7 +6,7 @@ from .forms import StudentRegistrationForm,MentorRegistrationForm
 
 # Create your views here.
 def landing_page(request):
-    return render(request,'landing.html')
+    return render(request,'register.html')
 
 
 def login_view(request):
@@ -52,7 +52,7 @@ def mentor_register(request):
 def logout_view(request):
     logout(request)
     messages.success(request,'You have been log out.')
-    return redirect('landing')
+    return redirect('register')
 
         
 

@@ -6,7 +6,7 @@ class StudentRegistrationForm(UserCreationForm):
         model=CustomUser
         fields=('username','first_name','last_name','email')
     
-        def save(self,commit=True):
+    def save(self,commit=True):
             user=super().save(commit=False)
             user.user_type='student'
             if commit:
@@ -19,7 +19,7 @@ class MentorRegistrationForm(UserCreationForm):
         model=CustomUser
         fields=('username','first_name','last_name','email')
 
-        def save(self,commit=True):
+    def save(self,commit=True):
             user=super().save(commit=False)
             user.user_type='mentor'
 
