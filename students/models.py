@@ -15,6 +15,7 @@ class StudentProfile(models.Model):
         ('Other','Other')
     ]
     gender=models.CharField(max_length=10,choices=GENDER_CHOICES,null=True,blank=True)
+    contact_number = models.CharField(max_length=15, null=True, blank=True)
     guardian_name = models.CharField(max_length=100, null=True, blank=True)
     guardian_contact_number = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
