@@ -1,7 +1,128 @@
 {% extends 'base_student.html' %}
 
-{% block title %}Student Dashboard{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold">Student</h1>
+<div class="bg-gray-50 min-h-screen py-10 px-4">
+  <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+
+    <!-- Header Section -->
+    <div class="relative p-10 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-blue-100">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+
+        <!-- Profile Image -->
+        {% if profile.profile_picture %}
+          <img src="{{ profile.profile_picture.url }}" alt="Profile Picture"
+               class="h-32 w-32 rounded-full object-cover ring-4 ring-blue-300 shadow-md">
+        {% else %}
+          <div class="h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-semibold">
+            No Image
+          </div>
+        {% endif %}
+
+        <!-- Profile Info -->
+        <div class="text-center md:text-left">
+          <h1 class="text-3xl font-bold text-gray-800">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+          <p class="text-blue-700 font-medium">@{{ profile.user.username }}</p>
+          <p class="text-gray-600">{{ profile.user.email }}</p>
+        </div>
+      </div>
+
+      <!-- Edit Button -->
+      <a href="{% url 'student_edit' %}"
+         class="absolute top-6 right-6 inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" class="w-5 h-5">
+           <path stroke-linecap="round" stroke-linejoin="round"
+                 d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652l-9.45 9.45a4.5 4.5 0 01-1.897 1.13l-3.318.943.943-3.318a4.5 4.5 0 011.13-1.897l9.253-9.272z" />
+           <path stroke-linecap="round" stroke-linejoin="round"
+                 d="M19.5 7.125L17.375 5" />
+         </svg>
+         Edit Profile
+      </a>
+    </div>
+
+    <!-- Profile Body -->
+    <div class="p-8 space-y-10">
+
+      <!-- Personal Info -->
+      <section class="bg-blue-50 rounded-xl shadow-sm p-6">
+        <h2 class="text-2xl font-semibold text-blue-800 mb-4 border-b border-blue-200 pb-2">Personal Information</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700">
+          <div>
+            <dt class="font-medium text-gray-600">Contact Number</dt>
+            <dd>{{ profile.contact_number|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Date of Birth</dt>
+            <dd>{{ profile.date_of_birth|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Gender</dt>
+            <dd>{{ profile.get_gender_display|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Blood Group</dt>
+            <dd>{{ profile.blood_group|default:"N/A" }}</dd>
+          </div>
+          <div class="md:col-span-2">
+            <dt class="font-medium text-gray-600">Address</dt>
+            <dd>{{ profile.address|default:"N/A" }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Guardian Info -->
+      <section class="bg-green-50 rounded-xl shadow-sm p-6">
+        <h2 class="text-2xl font-semibold text-green-800 mb-4 border-b border-green-200 pb-2">Guardian Information</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700">
+          <div>
+            <dt class="font-medium text-gray-600">Guardian Name</dt>
+            <dd>{{ profile.guardian_name|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Guardian Contact</dt>
+            <dd>{{ profile.guardian_contact_number|default:"N/A" }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Academic Info -->
+      <section class="bg-purple-50 rounded-xl shadow-sm p-6">
+        <h2 class="text-2xl font-semibold text-purple-800 mb-4 border-b border-purple-200 pb-2">Academic Information</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700">
+          <div>
+            <dt class="font-medium text-gray-600">Department</dt>
+            <dd>{{ profile.department.name|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Course</dt>
+            <dd>{{ profile.course.name|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Admission No</dt>
+            <dd>{{ profile.admission_no|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Year</dt>
+            <dd>{{ profile.get_year_display|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Division</dt>
+            <dd>{{ profile.get_division_batch_display|default:"N/A" }}</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-gray-600">Roll Number</dt>
+            <dd>{{ profile.roll_number|default:"N/A" }}</dd>
+          </div>
+          <div class="md:col-span-2">
+            <dt class="font-medium text-gray-600">Date of Admission</dt>
+            <dd>{{ profile.date_of_admission|default:"N/A" }}</dd>
+          </div>
+        </dl>
+      </section>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

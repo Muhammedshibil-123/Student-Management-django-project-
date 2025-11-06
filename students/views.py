@@ -28,3 +28,10 @@ def student_course(request):
         return redirect('login')
     
     return render(request,'student/course.html')
+
+@login_required
+def student_edit(request):
+    if not request.user.is_student():
+        return redirect('login')
+    
+    return render(request,'student/edit.html')
