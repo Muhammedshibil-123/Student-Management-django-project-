@@ -43,7 +43,6 @@ def student_edit(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, 'Your profile has been updated successfully!')
             return redirect('student_profile') 
         else:
             messages.error(request, 'Please correct the errors below.')
@@ -56,4 +55,4 @@ def student_edit(request):
         'p_form':p_form
     }
 
-    return render(request,'student/edit.html')
+    return render(request,'student/edit.html',context)
