@@ -19,7 +19,7 @@ def login_view(request):
             login(request,user)
             
             if user.is_mentor():
-                return redirect('mentor_profile')
+                return redirect('mentor_dashboard')
             elif user.is_student():
                 return redirect('student_dashboard')
         else:
@@ -52,7 +52,7 @@ def mentor_register(request):
 def logout_view(request):
     logout(request)
     messages.success(request,'You have been log out.')
-    return redirect('register')
+    return redirect('login')
 
         
 
