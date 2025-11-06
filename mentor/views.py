@@ -18,6 +18,13 @@ def mentor_profile(request):
     return render(request,'mentor/profile.html')
 
 @login_required
+def mentor_edit(request):
+    if not request.user.is_mentor():
+        return redirect('login')
+    
+    return render(request,'mentor/edit.html')
+
+@login_required
 def mentor_request(request):
     if not request.user.is_mentor():
         return redirect('login')
