@@ -21,7 +21,7 @@ def login_view(request):
             if user.is_mentor():
                 return redirect('mentor_profile')
             elif user.is_student():
-                return redirect('student_profile')
+                return redirect('student_dashboard')
         else:
             messages.error(request,'invalid username or password.')
     

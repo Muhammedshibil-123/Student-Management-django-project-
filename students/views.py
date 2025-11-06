@@ -1,5 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-def student_d(request):
+@login_required
+def student_profile(request):
+    if not request.user.is_student():
+        return redirect('login')
+
     return render(request,'student/profile.html')
+
+@login_required
+def student_dashboard(request):
+    if not request.user.is_student():
+        return redirect('login')
+    
+    return render(request,'student/dashboard.html')
+
+@login_required
+def student_course(request):
+    if not request.user.is_student():
+        return redirect('login')
+    
+    return render(request,'student/course.html')
