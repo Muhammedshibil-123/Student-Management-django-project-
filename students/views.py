@@ -6,8 +6,14 @@ from django.contrib.auth.decorators import login_required
 def student_profile(request):
     if not request.user.is_student():
         return redirect('login')
+    
+    profile=request.user.student_profile
 
-    return render(request,'student/profile.html')
+    context={
+        'profile':profile
+    }
+    
+    return render(request,'student/profile.html',context)
 
 @login_required
 def student_dashboard(request):

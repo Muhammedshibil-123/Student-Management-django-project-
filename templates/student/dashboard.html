@@ -1,7 +1,99 @@
 {% extends 'base_student.html' %}
 
-{% block title %}Student Dashboard{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold">Dashboard</h1>
+<div class="bg-white shadow-lg rounded-lg p-8 max-w-4xl mx-auto">
+    
+    <div class="flex items-center gap-6 mb-6 pb-6 border-b">
+        {% if profile.profile_picture %}
+            <img class="h-32 w-32 rounded-full object-cover ring-4 ring-blue-100" src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+        {% else %}
+            <div class="h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-medium ring-4 ring-gray-100">
+                No Image
+            </div>
+        {% endif %}
+        
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+            <p class="text-lg text-gray-600">@{{ profile.user.username }}</p>
+            <p class="text-md text-gray-500">{{ profile.user.email }}</p>
+        </div>
+    </div>
+
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-700">Personal Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700">
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Contact Number:</span>
+                <span>{{ profile.contact_number|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Date of Birth:</span>
+                <span>{{ profile.date_of_birth|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Gender:</span>
+                <span>{{ profile.get_gender_display|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Blood Group:</span>
+                <span>{{ profile.blood_group|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2 col-span-1 md:col-span-2">
+                <span class="font-medium">Address:</span>
+                <span>{{ profile.address|default:"N/A" }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-700">Guardian Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700">
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Guardian Name:</span>
+                <span>{{ profile.guardian_name|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Guardian Contact:</span>
+                <span>{{ profile.guardian_contact_number|default:"N/A" }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-2xl font-semibold mb-4 text-blue-700">Academic Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700">
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Department:</span>
+                <span>{{ profile.department.name|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Course:</span>
+                <span>{{ profile.course.name|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Admission No:</span>
+                <span>{{ profile.admission_no|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Year:</span>
+                <span>{{ profile.get_year_display|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Division:</span>
+                <span>{{ profile.get_division_batch_display|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Roll Number:</span>
+                <span>{{ profile.roll_number|default:"N/A" }}</span>
+            </div>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium">Date of Admission:</span>
+                <span>{{ profile.date_of_admission|default:"N/A" }}</span>
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
