@@ -2,8 +2,12 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserUpdateForm ,ProfileUpdateForm
+from django.views.decorators.cache import cache_control
+def never_cache(view_func):
+    return cache_control(no_cache=True, must_revalidate=True, no_store=True)(view_func)
 
 # Create your views here.
+@never_cache
 @login_required
 def student_profile(request):
     if not request.user.is_student():
@@ -17,6 +21,7 @@ def student_profile(request):
     
     return render(request,'student/profile.html',context)
 
+@never_cache
 @login_required
 def student_dashboard(request):
     if not request.user.is_student():
@@ -24,6 +29,7 @@ def student_dashboard(request):
     
     return render(request,'student/dashboard.html')
 
+@never_cache
 @login_required
 def student_course(request):
     if not request.user.is_student():
@@ -37,6 +43,7 @@ def student_course(request):
     
     return render(request,'student/course.html',context)
 
+@never_cache
 @login_required
 def student_edit(request):
     if not request.user.is_student():
