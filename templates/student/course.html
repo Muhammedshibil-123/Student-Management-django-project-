@@ -2,7 +2,7 @@
 {% block content %}
 <div class="bg-gray-50 min-h-screen py-10 px-4">
   <div class="max-w-4xl mx-auto">
-    {% if profile.approval_status == 'approved' %}
+    {% if changes_profile.approval_status == 'approved' %}
     <h1 class="text-3xl font-bold text-gray-900 mb-8">My Course & Semesters</h1>
 
     <div class="bg-white shadow-lg rounded-xl p-6 mb-8 border border-gray-200">
@@ -16,29 +16,29 @@
       >
         <div>
           <dt class="font-medium text-gray-600">Department</dt>
-          <dd class="text-lg">{{ profile.department.name|default:"N/A" }}</dd>
+          <dd class="text-lg">{{ changes_profile.department.name|default:"N/A" }}</dd>
         </div>
         <div>
           <dt class="font-medium text-gray-600">Course</dt>
-          <dd class="text-lg">{{ profile.course.name|default:"N/A" }}</dd>
+          <dd class="text-lg">{{ changes_profile.course.name|default:"N/A" }}</dd>
         </div>
         <div>
           <dt class="font-medium text-gray-600">Year</dt>
-          <dd class="text-lg">{{ profile.get_year_display|default:"N/A" }}</dd>
+          <dd class="text-lg">{{ prochanges_profilefile.get_year_display|default:"N/A" }}</dd>
         </div>
         <div>
           <dt class="font-medium text-gray-600">Division</dt>
           <dd class="text-lg">
-            {{ profile.get_division_batch_display|default:"N/A" }}
+            {{ changes_profile.get_division_batch_display|default:"N/A" }}
           </dd>
         </div>
         <div>
           <dt class="font-medium text-gray-600">Admission No</dt>
-          <dd class="text-lg">{{ profile.admission_no|default:"N/A" }}</dd>
+          <dd class="text-lg">{{ changes_profile.admission_no|default:"N/A" }}</dd>
         </div>
         <div>
           <dt class="font-medium text-gray-600">Roll Number</dt>
-          <dd class="text-lg">{{ profile.roll_number|default:"N/A" }}</dd>
+          <dd class="text-lg">{{ changes_profile.roll_number|default:"N/A" }}</dd>
         </div>
       </dl>
     </div>
@@ -55,7 +55,7 @@
           class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
         >
           <span class="text-lg font-semibold text-gray-800">Semester 1</span>
-          {% if profile.semester1_status == 'finished' %}
+          {% if changes_profile.semester1_status == 'finished' %}
           <span
             class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
             >Finished</span
@@ -72,7 +72,7 @@
           class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
         >
           <span class="text-lg font-semibold text-gray-800">Semester 2</span>
-          {% if profile.semester2_status == 'finished' %}
+          {% if changes_profile.semester2_status == 'finished' %}
           <span
             class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
             >Finished</span
@@ -89,7 +89,7 @@
           class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
         >
           <span class="text-lg font-semibold text-gray-800">Semester 3</span>
-          {% if profile.semester3_status == 'finished' %}
+          {% if changes_profile.semester3_status == 'finished' %}
           <span
             class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
             >Finished</span
@@ -106,7 +106,7 @@
           class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
         >
           <span class="text-lg font-semibold text-gray-800">Semester 4</span>
-          {% if profile.semester4_status == 'finished' %}
+          {% if changes_profile.semester4_status == 'finished' %}
           <span
             class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
             >Finished</span
@@ -123,7 +123,7 @@
           class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
         >
           <span class="text-lg font-semibold text-gray-800">Semester 5</span>
-          {% if profile.semester5_status == 'finished' %}
+          {% if changes_profile.semester5_status == 'finished' %}
           <span
             class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
             >Finished</span
@@ -140,7 +140,7 @@
           class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
         >
           <span class="text-lg font-semibold text-gray-800">Semester 6</span>
-          {% if profile.semester6_status == 'finished' %}
+          {% if changes_profile.semester6_status == 'finished' %}
           <span
             class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
             >Finished</span

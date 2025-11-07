@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
-from students.forms import UserUpdateForm 
+from students.forms import UserUpdateForm ,ProfileUpdateForm
 from .forms import MentorProfileUpdateForm,StudentSemesterUpdateForm
 from django.contrib import messages
 from students.models import StudentProfile
@@ -8,6 +8,7 @@ from django.conf import settings
 from auth_app.models import CustomUser
 from django.core.mail import EmailMessage
 from django.forms import modelformset_factory
+
 
 # Create your views here.
 @login_required
@@ -66,8 +67,57 @@ def mentor_students(request):
     if not request.user.is_mentor():
         return redirect('login')
     
-    return render(request,'mentor/students.html')
+    mentor_profile = request.user.mentor_profile
+    approved_students = StudentProfile.objects.filter(
+        department=mentor_profile.department,
+        course=mentor_profile.course,
+        year=mentor_profile.year,
+        division_batch=mentor_profile.division_batch,
+        approval_status='approved'
+    ).order_by('user__first_name')
 
+    context = {
+        'approved_students': approved_students
+    }
+    return render(request,'mentor/students.html', context)
+
+@login_required
+def mentor_edit_student(request, profile_id):
+    if not request.user.is_mentor():
+        return redirect('login')
+    
+    student_profile = get_object_or_404(StudentProfile, id=profile_id)
+    student_user = student_profile.user
+
+    mentor_profile = request.user.mentor_profile
+    if not (student_profile.department == mentor_profile.department and
+            student_profile.course == mentor_profile.course and
+            student_profile.year == mentor_profile.year and
+            student_profile.division_batch == mentor_profile.division_batch):
+        messages.error(request, "You are not authorized to edit this student.")
+        return redirect('mentor_students')
+
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=student_user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=student_profile)
+        
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"Profile for {student_user.username} updated successfully.")
+            return redirect('mentor_students') 
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        u_form = UserUpdateForm(instance=student_user)
+        p_form = ProfileUpdateForm(instance=student_profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+        'student_profile': student_profile
+    }
+    return render(request, 'mentor/edit_student.html', context)
 @login_required
 def mentor_course(request):
     if not request.user.is_mentor():
