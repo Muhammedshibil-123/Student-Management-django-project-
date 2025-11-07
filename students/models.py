@@ -50,5 +50,17 @@ class StudentProfile(models.Model):
     roll_number = models.CharField(max_length=10, null=True, blank=True)
     date_of_admission = models.DateField(null=True, blank=True)
 
+    SEMESTER_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('finished', 'Finished'),
+    ]
+
+    semester1_status = models.CharField(max_length=10, choices=SEMESTER_STATUS_CHOICES, default='pending')
+    semester2_status = models.CharField(max_length=10, choices=SEMESTER_STATUS_CHOICES, default='pending')
+    semester3_status = models.CharField(max_length=10, choices=SEMESTER_STATUS_CHOICES, default='pending')
+    semester4_status = models.CharField(max_length=10, choices=SEMESTER_STATUS_CHOICES, default='pending')
+    semester5_status = models.CharField(max_length=10, choices=SEMESTER_STATUS_CHOICES, default='pending')
+    semester6_status = models.CharField(max_length=10, choices=SEMESTER_STATUS_CHOICES, default='pending')
+
     def __str__(self):
         return f"Profile of {self.user.username}"

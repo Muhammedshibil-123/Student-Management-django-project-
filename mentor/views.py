@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from students.forms import UserUpdateForm 
-from .forms import MentorProfileUpdateForm
+from .forms import MentorProfileUpdateForm,StudentSemesterUpdateForm
 from django.contrib import messages
 from students.models import StudentProfile
 from django.conf import settings
 from auth_app.models import CustomUser
 from django.core.mail import EmailMessage
+from django.forms import modelformset_factory
 
 # Create your views here.
 @login_required
@@ -71,8 +72,39 @@ def mentor_students(request):
 def mentor_course(request):
     if not request.user.is_mentor():
         return redirect('login')
-    
-    return render(request,'mentor/course.html')
+
+    mentor_profile = request.user.mentor_profile
+
+    StudentSemesterFormSet = modelformset_factory(
+        StudentProfile,
+        form=StudentSemesterUpdateForm,
+        extra=0 
+    )
+
+    students_queryset = StudentProfile.objects.filter(
+        department=mentor_profile.department,
+        course=mentor_profile.course,
+        year=mentor_profile.year,
+        division_batch=mentor_profile.division_batch,
+        approval_status='approved'
+    ).order_by('user__first_name')
+
+    if request.method == 'POST':
+        formset = StudentSemesterFormSet(request.POST, queryset=students_queryset)
+        
+        if formset.is_valid():
+            formset.save()  
+            messages.success(request, 'Student semester statuses updated successfully!')
+            return redirect('mentor_course')    
+
+    else:
+        formset = StudentSemesterFormSet(queryset=students_queryset)
+
+    context = {
+        'formset': formset,
+        'profile': mentor_profile
+    }
+    return render(request,'mentor/course.html', context)
 
 @login_required
 def mentor_request(request):

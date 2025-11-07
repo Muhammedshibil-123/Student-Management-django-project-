@@ -1,7 +1,178 @@
-{% extends 'base_student.html' %}
-
-{% block title %}Student Dashboard{% endblock %}
-
+{% extends 'base_student.html' %} {% block title %}Course Details{% endblock %}
 {% block content %}
-<h1 class="text-2xl font-bold">courses</h1>
+<div class="bg-gray-50 min-h-screen py-10 px-4">
+  <div class="max-w-4xl mx-auto">
+    {% if profile.approval_status == 'approved' %}
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">My Course & Semesters</h1>
+
+    <div class="bg-white shadow-lg rounded-xl p-6 mb-8 border border-gray-200">
+      <h2
+        class="text-2xl font-semibold text-purple-800 mb-4 border-b border-purple-200 pb-2"
+      >
+        Academic Information
+      </h2>
+      <dl
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 text-gray-700"
+      >
+        <div>
+          <dt class="font-medium text-gray-600">Department</dt>
+          <dd class="text-lg">{{ profile.department.name|default:"N/A" }}</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-600">Course</dt>
+          <dd class="text-lg">{{ profile.course.name|default:"N/A" }}</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-600">Year</dt>
+          <dd class="text-lg">{{ profile.get_year_display|default:"N/A" }}</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-600">Division</dt>
+          <dd class="text-lg">
+            {{ profile.get_division_batch_display|default:"N/A" }}
+          </dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-600">Admission No</dt>
+          <dd class="text-lg">{{ profile.admission_no|default:"N/A" }}</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-600">Roll Number</dt>
+          <dd class="text-lg">{{ profile.roll_number|default:"N/A" }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+      <h2
+        class="text-2xl font-semibold text-green-800 mb-6 border-b border-green-200 pb-2"
+      >
+        Semester Status
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+        >
+          <span class="text-lg font-semibold text-gray-800">Semester 1</span>
+          {% if profile.semester1_status == 'finished' %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
+            >Finished</span
+          >
+          {% else %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full"
+            >Pending</span
+          >
+          {% endif %}
+        </div>
+
+        <div
+          class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+        >
+          <span class="text-lg font-semibold text-gray-800">Semester 2</span>
+          {% if profile.semester2_status == 'finished' %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
+            >Finished</span
+          >
+          {% else %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full"
+            >Pending</span
+          >
+          {% endif %}
+        </div>
+
+        <div
+          class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+        >
+          <span class="text-lg font-semibold text-gray-800">Semester 3</span>
+          {% if profile.semester3_status == 'finished' %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
+            >Finished</span
+          >
+          {% else %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full"
+            >Pending</span
+          >
+          {% endif %}
+        </div>
+
+        <div
+          class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+        >
+          <span class="text-lg font-semibold text-gray-800">Semester 4</span>
+          {% if profile.semester4_status == 'finished' %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
+            >Finished</span
+          >
+          {% else %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full"
+            >Pending</span
+          >
+          {% endif %}
+        </div>
+
+        <div
+          class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+        >
+          <span class="text-lg font-semibold text-gray-800">Semester 5</span>
+          {% if profile.semester5_status == 'finished' %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
+            >Finished</span
+          >
+          {% else %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full"
+            >Pending</span
+          >
+          {% endif %}
+        </div>
+
+        <div
+          class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+        >
+          <span class="text-lg font-semibold text-gray-800">Semester 6</span>
+          {% if profile.semester6_status == 'finished' %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full"
+            >Finished</span
+          >
+          {% else %}
+          <span
+            class="px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full"
+            >Pending</span
+          >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+    <div
+      class="bg-white p-6 rounded-lg shadow text-center  "
+    >
+      <h1 class="text-xl font-semibold text-gray-800 mb-2">
+        Your Account is Pending Approval
+      </h1>
+      <p class="text-gray-700">
+        Your registration has been submitted and is awaiting approval from your
+        mentor.
+      </p>
+      <p class="text-gray-600 mt-2 text-sm">
+        Once approved, you'll be able to access your course details and semester
+        progress here.
+      </p>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

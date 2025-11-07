@@ -29,7 +29,13 @@ def student_course(request):
     if not request.user.is_student():
         return redirect('login')
     
-    return render(request,'student/course.html')
+    profile=request.user.student_profile
+
+    context={
+        'changes_profile':profile
+    }
+    
+    return render(request,'student/course.html',context)
 
 @login_required
 def student_edit(request):
