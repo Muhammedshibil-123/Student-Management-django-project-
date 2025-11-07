@@ -4,7 +4,9 @@ from students.forms import UserUpdateForm
 from .forms import MentorProfileUpdateForm
 from django.contrib import messages
 from students.models import StudentProfile
-
+from django.conf import settings
+from auth_app.models import CustomUser
+from django.core.mail import EmailMessage
 
 # Create your views here.
 @login_required
@@ -100,8 +102,32 @@ def approve_student(request, profile_id):
     student_profile = get_object_or_404(StudentProfile, id=profile_id)
     student_profile.approval_status = 'approved'
     student_profile.save()
-    
-    messages.success(request, f"Student '{student_profile.user.username}' has been approved.")
+
+    mentor = request.user
+    student = student_profile.user
+        
+    subject = 'Your Account Has Been Approved!'
+    message = f'Hi {student.first_name},\n\n' \
+              f'Congratulations! Your account has been approved by your mentor, {mentor.first_name} {mentor.last_name}.\n\n' \
+              f'You’re now officially enrolled in your courses, and you can access them by logging into your SLMS account. Take a moment to explore your dashboard, view your course materials, and get started with your learning journey.\n\n' \
+              f'If you have any questions, you can reply directly to this email.\n\n' \
+              f'Regards,\n{mentor.first_name} {mentor.last_name}'
+    email_from = settings.EMAIL_HOST_USER
+        
+    recipient_list = [student.email]
+       
+    headers = {'Reply-To': mentor.email}
+       
+    email = EmailMessage(
+            subject,
+            message,
+            email_from,
+            recipient_list,
+            headers=headers
+     )
+    email.send()
+        
+
     return redirect('mentor_request')
 
 @login_required
