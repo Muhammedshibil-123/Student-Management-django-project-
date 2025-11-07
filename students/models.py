@@ -5,8 +5,13 @@ from mentor.models import Department,Course
 # Create your models here.
 class StudentProfile(models.Model):
     user=models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='student_profile')
-    
-    #person information
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+    ]
+    approval_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+   
     date_of_birth=models.DateField(null=True,blank=True)
     GENDER_CHOICES=[
         ('','Select Gender'),
@@ -22,7 +27,7 @@ class StudentProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/students/', null=True, blank=True)
     blood_group=models.CharField(max_length=10 ,null=True,blank=True)
 
-    #acadmic_information
+   
     admission_no = models.CharField(max_length=20, unique=True, null=True, blank=True)
     department=models.ForeignKey(Department,on_delete=models.SET_NULL,null=True,blank=True)
     course=models.ForeignKey(Course,on_delete=models.SET_NULL,null=True,blank=True)
