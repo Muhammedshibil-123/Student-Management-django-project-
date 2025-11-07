@@ -9,15 +9,51 @@ from auth_app.models import CustomUser
 from django.core.mail import EmailMessage
 from django.forms import modelformset_factory
 
+from django.views.decorators.cache import cache_control
+def never_cache(view_func):
+    return cache_control(no_cache=True, must_revalidate=True, no_store=True)(view_func)
 
 # Create your views here.
+@never_cache
 @login_required
 def mentor_dashboard(request):
     if not request.user.is_mentor():
         return redirect('login')
-    
-    return render(request,'mentor/dashboard.html')
 
+    mentor_profile = request.user.mentor_profile
+
+    total_students = CustomUser.objects.filter(user_type='student').count()
+    total_mentors = CustomUser.objects.filter(user_type='mentor').count()
+    
+    assigned_students_count = StudentProfile.objects.filter(
+        department=mentor_profile.department,
+        course=mentor_profile.course,
+        year=mentor_profile.year,
+        division_batch=mentor_profile.division_batch,
+        approval_status='approved'
+    ).count()
+    
+    pending_requests_count = StudentProfile.objects.filter(
+        department=mentor_profile.department,
+        course=mentor_profile.course,
+        year=mentor_profile.year,
+        division_batch=mentor_profile.division_batch,
+        approval_status='pending'
+    ).count()
+    
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'user': request.user,
+        'total_students': total_students,
+        'total_mentors': total_mentors,
+        'assigned_students_count': assigned_students_count,
+        'pending_requests_count': pending_requests_count,
+    }
+    
+    return render(request,'mentor/dashboard.html', context)
+
+@never_cache
 @login_required
 def mentor_profile(request):
     if not request.user.is_mentor():
@@ -30,6 +66,7 @@ def mentor_profile(request):
     }
     return render(request,'mentor/profile.html', context) 
 
+@never_cache
 @login_required
 def mentor_edit(request):
     if not request.user.is_mentor():
@@ -55,6 +92,7 @@ def mentor_edit(request):
     
     return render(request, 'mentor/edit.html', context)
 
+@never_cache
 @login_required
 def mentor_request(request):
     if not request.user.is_mentor():
@@ -62,6 +100,7 @@ def mentor_request(request):
     
     return render(request,'mentor/request.html')
 
+@never_cache
 @login_required
 def mentor_students(request):
     if not request.user.is_mentor():
@@ -81,6 +120,7 @@ def mentor_students(request):
     }
     return render(request,'mentor/students.html', context)
 
+@never_cache
 @login_required
 def mentor_edit_student(request, profile_id):
     if not request.user.is_mentor():
@@ -118,6 +158,8 @@ def mentor_edit_student(request, profile_id):
         'student_profile': student_profile
     }
     return render(request, 'mentor/edit_student.html', context)
+    
+@never_cache
 @login_required
 def mentor_course(request):
     if not request.user.is_mentor():
@@ -156,6 +198,7 @@ def mentor_course(request):
     }
     return render(request,'mentor/course.html', context)
 
+@never_cache
 @login_required
 def mentor_request(request):
     if not request.user.is_mentor():
@@ -176,6 +219,7 @@ def mentor_request(request):
     }
     return render(request,'mentor/request.html', context)
 
+@never_cache
 @login_required
 def approve_student(request, profile_id):
     if not request.user.is_mentor():
@@ -212,6 +256,7 @@ def approve_student(request, profile_id):
 
     return redirect('mentor_request')
 
+@never_cache
 @login_required
 def decline_student(request, profile_id):
     if not request.user.is_mentor():
@@ -223,3 +268,25 @@ def decline_student(request, profile_id):
     
     messages.error(request, f"Student '{user_to_delete.username}' has been declined and deleted.")
     return redirect('mentor_request')
+
+@never_cache
+@login_required
+def mentor_delete_student(request, profile_id):
+    if not request.user.is_mentor():
+        return redirect('login')
+
+    student_profile = get_object_or_404(StudentProfile, id=profile_id)
+    mentor_profile = request.user.mentor_profile
+    if not (student_profile.department == mentor_profile.department and
+            student_profile.course == mentor_profile.course and
+            student_profile.year == mentor_profile.year and
+            student_profile.division_batch == mentor_profile.division_batch):
+        messages.error(request, "You are not authorized to delete this student.")
+        return redirect('mentor_students')
+    
+    username = student_profile.user.username
+    
+    student_profile.user.delete()
+
+    messages.success(request, f"Student '{username}' has been successfully deleted.")
+    return redirect('mentor_students')

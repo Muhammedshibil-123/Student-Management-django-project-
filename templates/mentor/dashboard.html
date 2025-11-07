@@ -1,7 +1,145 @@
 {% extends 'base_mentor.html' %}
+{% load static %}
 
-{% block title %}Student Dashboard{% endblock %}
+
 
 {% block content %}
-<h1 class="text-2xl font-bold">dashboard</h1>
+
+<!-- Header Section -->
+<section class="mb-10">
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 leading-tight">
+        Welcome back, {{ user.first_name|default:user.username }} 👋
+      </h1>
+    </div>
+  </div>
+</section>
+
+<!-- Summary Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
+  <!-- Students Card -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition p-6 flex justify-between items-center">
+    <div>
+      <p class="text-gray-500 text-sm font-medium">Total Students</p>
+      <h2 class="text-4xl font-bold text-gray-900 mt-1">{{ assigned_students_count }}</h2>
+      <p class="text-gray-400 text-xs mt-1">Assigned to you</p>
+    </div>
+    <div class="p-4 bg-blue-50 rounded-full">
+      <img src="{% static 'images/student.png' %}" alt="Students" class="h-7 w-7">
+    </div>
+  </div>
+
+  <!-- Pending Requests -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition p-6 flex justify-between items-center">
+    <div>
+      <p class="text-gray-500 text-sm font-medium">Pending Approvals</p>
+      <h2 class="text-4xl font-bold text-gray-900 mt-1">{{ pending_requests_count }}</h2>
+      <p class="text-gray-400 text-xs mt-1">Awaiting your review</p>
+    </div>
+    <div class="p-4 bg-yellow-50 rounded-full">
+      <img src="{% static 'images/request.png' %}" alt="Requests" class="h-7 w-7">
+    </div>
+  </div>
+
+  <!-- College Stats (Compact Summary) -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition p-6 flex justify-between items-center">
+    <div>
+      <p class="text-gray-500 text-sm font-medium">College Overview</p>
+      <h2 class="text-lg font-semibold text-gray-900 mt-1">
+        {{ total_students }} Students • {{ total_mentors }} Mentors
+      </h2>
+      <p class="text-gray-400 text-xs mt-1">Across all departments</p>
+    </div>
+    <div class="p-4 bg-green-50 rounded-full">
+      <img src="{% static 'images/course.png' %}" alt="Stats" class="h-7 w-7">
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+  <!-- Quick Links Section -->
+  <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="text-xl font-semibold text-gray-900">Quick Access</h2>
+    
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      
+      <a href="{% url 'mentor_profile' %}"
+         class="group flex items-start space-x-3 p-4 bg-gray-50 hover:bg-red-50 border border-transparent hover:border-red-100 rounded-lg transition">
+        <div class="p-3 bg-white shadow-sm rounded-md group-hover:shadow-md">
+          <img src="{% static 'images/profile.png' %}" class="h-6 w-6 opacity-80 group-hover:opacity-100" alt="Profile">
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">My Profile</h3>
+          <p class="text-sm text-gray-600">View and edit your details</p>
+        </div>
+      </a>
+
+      <a href="{% url 'mentor_students' %}"
+         class="group flex items-start space-x-3 p-4 bg-gray-50 hover:bg-blue-50 border border-transparent hover:border-blue-100 rounded-lg transition">
+        <div class="p-3 bg-white shadow-sm rounded-md group-hover:shadow-md">
+          <img src="{% static 'images/student.png' %}" class="h-6 w-6 opacity-80 group-hover:opacity-100" alt="Students">
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">Manage Students</h3>
+          <p class="text-sm text-gray-600">Edit, update, or remove info</p>
+        </div>
+      </a>
+
+      <a href="{% url 'mentor_course' %}"
+         class="group flex items-start space-x-3 p-4 bg-gray-50 hover:bg-green-50 border border-transparent hover:border-green-100 rounded-lg transition">
+        <div class="p-3 bg-white shadow-sm rounded-md group-hover:shadow-md">
+          <img src="{% static 'images/course.png' %}" class="h-6 w-6 opacity-80 group-hover:opacity-100" alt="Courses">
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">Manage Semesters</h3>
+          <p class="text-sm text-gray-600">Update semester records</p>
+        </div>
+      </a>
+
+      <a href="{% url 'mentor_request' %}"
+         class="group flex items-start space-x-3 p-4 bg-gray-50 hover:bg-yellow-50 border border-transparent hover:border-yellow-100 rounded-lg transition">
+        <div class="p-3 bg-white shadow-sm rounded-md group-hover:shadow-md">
+          <img src="{% static 'images/request.png' %}" class="h-6 w-6 opacity-80 group-hover:opacity-100" alt="Requests">
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">View Requests</h3>
+          <p class="text-sm text-gray-600">Approve or decline students</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sidebar: Mentor Info -->
+  <div class="space-y-6">
+    
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-3 border-b pb-2">Your Assignment</h2>
+      <dl class="text-sm space-y-3">
+        <div class="flex justify-between">
+          <dt class="text-gray-600">Department</dt>
+          <dd class="font-medium text-gray-900">{{ mentor_profile.department.name|default:"N/A" }}</dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-gray-600">Course</dt>
+          <dd class="font-medium text-gray-900">{{ mentor_profile.course.name|default:"N/A" }}</dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-gray-600">Year</dt>
+          <dd class="font-medium text-gray-900">{{ mentor_profile.get_year_display|default:"N/A" }}</dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-gray-600">Division</dt>
+          <dd class="font-medium text-gray-900">{{ mentor_profile.get_division_batch_display|default:"N/A" }}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

@@ -10,6 +10,6 @@ urlpatterns = [
     path('edit/',views.mentor_edit,name='mentor_edit'),
     path('approve/<int:profile_id>/', views.approve_student, name='approve_student'),
     path('decline/<int:profile_id>/', views.decline_student, name='decline_student'),
-    path('student/edit/<ingt:profile_id>',views.mentor_edit_student,name='mentor_edit_student'),
-
+    path('student/edit/<int:profile_id>',views.mentor_edit_student,name='mentor_edit_student'),
+    path('student/delete/<int:profile_id>/', views.mentor_delete_student, name='mentor_delete_student'),
 ]
